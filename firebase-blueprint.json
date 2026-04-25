@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "vehicleNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "fullName", "email", "role", "createdAt"]
+    },
+    "ParkingSlot": {
+      "title": "Parking Slot",
+      "description": "Parking slot availability and details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "slotNumber": { "type": "string" },
+        "position": { "type": "string" },
+        "location": { "type": "string" },
+        "vehicleType": { "type": "string", "enum": ["car", "bike"] },
+        "isAvailable": { "type": "boolean" },
+        "price": { "type": "number" },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "slotNumber", "location", "vehicleType", "isAvailable", "price", "lastUpdated"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Parking slot booking transaction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "slotId": { "type": "string" },
+        "location": { "type": "string" },
+        "slotNumber": { "type": "string" },
+        "slotPosition": { "type": "string" },
+        "startTime": { "type": "string", "format": "date-time" },
+        "endTime": { "type": "string", "format": "date-time" },
+        "duration": { "type": "number" },
+        "totalPrice": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "slotId", "location", "slotNumber", "startTime", "endTime", "status", "createdAt"]
+    },
+    "Complaint": {
+      "title": "Complaint",
+      "description": "User feedback or complaint",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "bookingId": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "solved", "rejected"] },
+        "adminReply": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "subject", "message", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Store user profiles"
+    },
+    "slots/{slotId}": {
+      "schema": "ParkingSlot",
+      "description": "Store parking slot availability and details"
+    },
+    "bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Store booking transactions"
+    },
+    "complaints/{complaintId}": {
+      "schema": "Complaint",
+      "description": "Store user complaints"
+    }
+  }
+}
